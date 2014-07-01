@@ -254,7 +254,6 @@ class libvirt_test_api(test.test):
                 break 
         log_file = open(log_file_name, "r")
         for line in log_file.readlines():
-            print line
             if len(line.split()) == 0:
                 continue
             # split the conf log for different cases
@@ -338,6 +337,7 @@ class libvirt_test_api(test.test):
  
             try:
                 result = utils.run('python excute/virtlab.py %s' % cmd_item, ignore_status = True)
+                print result
                 self.parase_result(result, test_item, report)
             
                 if test_item == "consumption_domain_nfs_start.conf":
