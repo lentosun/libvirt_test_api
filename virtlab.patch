@@ -1,0 +1,13 @@
+diff --git a/excute/virtlab.py b/excute/virtlab.py
+index cf9ed65..9f36aa5 100644
+--- a/excute/virtlab.py
++++ b/excute/virtlab.py
+@@ -24,7 +24,7 @@ def append_path(path):
+         sys.path.append(path)
+ 
+ pwd = os.getcwd()
+-result = re.search('(.*)libvirt-test-API', pwd)
++result = re.search('(.*)src', pwd)
+ homepath = result.group(0)
+ append_path(homepath)
+ 
