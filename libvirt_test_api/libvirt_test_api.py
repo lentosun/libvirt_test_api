@@ -254,6 +254,7 @@ class libvirt_test_api(test.test):
                 break 
         log_file = open(log_file_name, "r")
         for line in log_file.readlines():
+            print line
             if len(line.split()) == 0:
                 continue
             # split the conf log for different cases
