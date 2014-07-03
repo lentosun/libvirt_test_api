@@ -312,18 +312,10 @@ class libvirt_test_api(test.test):
         report = Report()
         for test_item in test_items:
             
-            if test_item == "consumption_attach_detach_readonlydisk.conf":
-                print "Clear ssh key"
-                commands.getstatusoutput("echo > /root/.ssh/known_hosts")
- 
             try:
                 result = utils.run('python excute/virtlab.py %s' % test_item, ignore_status = True)
                 self.parase_result(result, test_item, report)
             
-                if test_item == "consumption_domain_nfs_start.conf":
-                    print "Set virt_use_nfs to on"
-                    commands.getstatusoutput("setsebool -P virt_use_nfs=on")
-
             except error.CmdError:
                 logs = glob.glob(os.path.join('log', '*'))
                 for log in logs:
