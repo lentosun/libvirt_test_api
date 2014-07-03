@@ -313,7 +313,7 @@ class libvirt_test_api(test.test):
         for test_item in test_items:
             
             try:
-                result = utils.run('python excute/virtlab.py %s' % test_item, ignore_status = True)
+                result = utils.run('python libvirt-test-api -c cases/%s' % test_item, ignore_status = True)
                 self.parase_result(result, test_item, report)
             
             except error.CmdError:
