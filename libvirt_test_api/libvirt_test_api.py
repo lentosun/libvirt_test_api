@@ -289,20 +289,6 @@ class libvirt_test_api(test.test):
 
 
 
-    def get_cmds_from_cfg(self, cmd_cfg):
-        cf = open(cmd_cfg, 'r')
-        cmd_list = []
-        for line in cf.readlines():
-            line = line.strip()
-            
-            if not line or line.startswith('#'):
-                continue
-            else:
-                cmd_list.append(line)
-
-        cf.close()
-        return cmd_list
-
     def run_once(self, item=''):
         if not item:
             raise error.TestError('No test item provided')
@@ -316,9 +302,7 @@ class libvirt_test_api(test.test):
             shutil.copyfile(src, dst)
 
         config_files_cfg = os.path.join(self.bindir, 'config_files.cfg')
-        cmd_cfg = os.path.join(self.bindir, 'cmd.cfg')
         test_items = self.get_tests_from_cfg(config_files_cfg, item)
-        cmd_items = self.get_cmds_from_cfg(cmd_cfg)
         if not test_items:
             raise error.TestError('No test available for item %s in '
                                   'config_files.cfg' % item)
@@ -328,16 +312,12 @@ class libvirt_test_api(test.test):
         report = Report()
         for test_item in test_items:
             
-            for cmd in cmd_items:
-                if test_item in cmd:
-                    cmd_item = cmd
-            
             if test_item == "consumption_attach_detach_readonlydisk.conf":
                 print "Clear ssh key"
                 commands.getstatusoutput("echo > /root/.ssh/known_hosts")
  
             try:
-                result = utils.run('python excute/virtlab.py %s' % cmd_item, ignore_status = True)
+                result = utils.run('python excute/virtlab.py %s' % test_item, ignore_status = True)
                 self.parase_result(result, test_item, report)
             
                 if test_item == "consumption_domain_nfs_start.conf":
