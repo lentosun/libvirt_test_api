@@ -1,0 +1,13 @@
+diff --git a/repos/domain/update_devflag.py b/repos/domain/update_devflag.py
+index 3f7d530..e0a700b 100644
+--- a/repos/domain/update_devflag.py
++++ b/repos/domain/update_devflag.py
+@@ -161,7 +161,7 @@ def update_devflag(params):
+     floppy_path = params.get('floppy_path', '/tmp/floppy.img')
+ 
+     pwd = os.getcwd()
+-    result = re.search('(.*)libvirt-test-API', pwd)
++    result = re.search('(.*)src', pwd)
+     homepath = result.group(0)
+ 
+     conn = sharedmod.libvirtobj['conn']
