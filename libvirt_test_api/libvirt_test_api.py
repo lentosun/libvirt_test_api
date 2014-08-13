@@ -241,6 +241,11 @@ class libvirt_test_api(test.test):
         """parase the result to status, err_msg, res
         """
         conf_name = conf_name[:-5]
+        if test_num < 10:
+            str_num = "0" + str(test_num)
+        else:
+            str_num = str(test_num)
+        conf_name = str_num + "_" + conf_name
         state = "FINISH"
         start_separate = "------------------------------------------------"
         finish_separate = "---------------------------------------------"
@@ -274,7 +279,6 @@ class libvirt_test_api(test.test):
             elif (full_separate in line) and (state == "RESULT"):
                 state = "FINISH"
                 log_output.append(line)
-                conf_name = str(test_num) + "_" + conf_name
                 report.update(item, conf_name, status, ''.join(log_output), err_msg, 0.0)
                 continue
             elif state == "RUNNING":
