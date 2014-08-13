@@ -237,7 +237,7 @@ class libvirt_test_api(test.test):
         return testcases
 
 
-    def parase_result(self, result, conf_name, report):
+    def parase_result(self, result, conf_name, report, test_num):
         """parase the result to status, err_msg, res
         """
         conf_name = conf_name[:-5]
@@ -274,6 +274,7 @@ class libvirt_test_api(test.test):
             elif (full_separate in line) and (state == "RESULT"):
                 state = "FINISH"
                 log_output.append(line)
+                conf_name = str(test_num) + "_" + conf_name
                 report.update(item, conf_name, status, ''.join(log_output), err_msg, 0.0)
                 continue
             elif state == "RUNNING":
@@ -326,21 +327,23 @@ class libvirt_test_api(test.test):
         os.chdir(self.srcdir)
         failed_tests = []
         report = Report()
-        for test_item in test_items:
+        test_list = [(test_items[i], i) for i in range(len(test_items))]
+
+        for test_item in test_list:
             
             for cmd in cmd_items:
-                if test_item in cmd:
+                if test_item[0] in cmd:
                     cmd_item = cmd
             
-            if test_item == "consumption_attach_detach_readonlydisk.conf":
+            if test_item[0] == "consumption_attach_detach_readonlydisk.conf":
                 print "Clear ssh key"
                 commands.getstatusoutput("echo > /root/.ssh/known_hosts")
  
             try:
                 result = utils.run('python excute/virtlab.py %s' % cmd_item, ignore_status = True)
-                self.parase_result(result, test_item, report)
+                self.parase_result(result, test_item[0], report, test_item[1])
             
-                if test_item == "consumption_domain_nfs_start.conf":
+                if test_item[0] == "consumption_domain_nfs_start.conf":
                     print "Set virt_use_nfs to on"
                     commands.getstatusoutput("setsebool -P virt_use_nfs=on")
 
@@ -348,7 +351,7 @@ class libvirt_test_api(test.test):
                 logs = glob.glob(os.path.join('log', '*'))
                 for log in logs:
                     shutil.rmtree(log)
-                failed_tests.append(os.path.basename(test_item).split('.')[0])
+                failed_tests.append(os.path.basename(test_item[0]).split('.')[0])
 
         if failed_tests:
             raise error.TestFail('Tests failed for item %s: %s' %
