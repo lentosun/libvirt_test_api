@@ -344,7 +344,7 @@ class libvirt_test_api(test.test):
                 commands.getstatusoutput("echo > /root/.ssh/known_hosts")
  
             try:
-                result = utils.run('python libvirt-test-api -c cases/%s' % test_item, ignore_status = True)
+                result = utils.run('python libvirt-test-api -c cases/%s' % test_item[0], ignore_status = True)
                 self.parase_result(result, test_item[0], report, test_item[1])
             
                 if test_item[0] == "consumption_domain_nfs_start.conf":
