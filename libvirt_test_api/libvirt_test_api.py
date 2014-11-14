@@ -323,7 +323,6 @@ class libvirt_test_api(test.test):
         config_files_cfg = os.path.join(self.bindir, 'config_files.cfg')
         cmd_cfg = os.path.join(self.bindir, 'cmd.cfg')
         test_items = self.get_tests_from_cfg(config_files_cfg, item)
-        cmd_items = self.get_cmds_from_cfg(cmd_cfg)
         if not test_items:
             raise error.TestError('No test available for item %s in '
                                   'config_files.cfg' % item)
@@ -334,11 +333,6 @@ class libvirt_test_api(test.test):
         test_list = [(test_items[i], i) for i in range(len(test_items))]
 
         for test_item in test_list:
-            
-            for cmd in cmd_items:
-                if test_item[0] in cmd:
-                    cmd_item = cmd
-            
             if test_item[0] == "consumption_attach_detach_readonlydisk.conf":
                 print "Clear ssh key"
                 commands.getstatusoutput("echo > /root/.ssh/known_hosts")
