@@ -1,0 +1,5 @@
+--- ./modify-ip-dhcp-host.xml	2014-12-12 13:50:56.792421046 +0800
++++ xmls/modify-ip-dhcp-host.xml	2014-12-12 11:01:32.652174683 +0800
+@@ -1 +1 @@
+-<host mac="00:16:3e:77:e2:ed" name="beijing.redhat.com" ip="192.168.122.101"/>
++<host mac="00:16:3e:77:e2:ed" name="beijing.redhat.com" ip="192.168.122.101" />
